@@ -1,7 +1,7 @@
 from typing import Literal
 from pydantic import BaseModel
 from typesafe_sdk import Choice, Score, Noul, TypeSafeClient
-from .comments import Comment
+from comments import Comment
 import random
 from typing import List
 class CommentAnalysis(BaseModel):

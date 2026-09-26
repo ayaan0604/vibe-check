@@ -1,5 +1,5 @@
 from typing import List
-from .analyzer import CommentAnalysis
+from analyzer import CommentAnalysis
 from pydantic import BaseModel
 from collections import Counter
 
