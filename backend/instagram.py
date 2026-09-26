@@ -73,6 +73,7 @@ class Instagram:
 
       
 if __name__ == "__main__":
+    
     i = Instagram()
     comments = i.get_comments("https://www.instagram.com/p/Ddk4uxwSNBd")
 
