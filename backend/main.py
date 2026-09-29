@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, field_validator, HttpUrl
 from services import AnalysisService, ExtractorService
+from fastapi.middleware.cors import CORSMiddleware
 
 
 class InstagramURL(BaseModel):
@@ -30,6 +31,14 @@ class AnalyzeRequest(BaseModel):
 
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=['http://localhost:5173'],
+    allow_credentials=True,
+    allow_headers=['*'],
+    allow_methods=['*']
+
+)
 
 analysis_service = AnalysisService()
 extractor_service = ExtractorService()
@@ -46,7 +55,7 @@ def analyze(request: AnalyzeRequest):
         return analysis_service.analyze(str(request.url.url), str(request.model))
     except Exception as e:
         raise HTTPException(status_code=400, detail={
-            'error' : e
+            'error' : str(e)
         })
 
 @app.post("/get_comments")
@@ -54,5 +63,5 @@ def get_comments(request : InstagramURL):
     try:
         return extractor_service.extract_comments(str(request.url))
     except Exception as e:
-        raise HTTPException(400, detail= {'error' : e})
+        raise HTTPException(400, detail= {'error' : str(e)})
     

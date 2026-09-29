@@ -58,13 +58,13 @@ class AnalysisService:
             'laya' : LayaCommentAnalyzer()
         }
         self.mock_analyzer = MockCommentAnalyzer()
-        self.mock_active = True
+        self.mock_active = False
         self.aggregator = Aggregator()
         self.cache = AnalysisCache()
 
     def get_analysed_comments(self, comments, model):
         if model not in self.analyzers_map.keys():
-            raise Exception(f"Please choose a model opition from : {self.analyzer_names}")
+            raise Exception(f"Please choose a model opition from : {self.analyzers_map.keys()}")
         
         if model == 'jev':
             return self.jev_analysis(comments)

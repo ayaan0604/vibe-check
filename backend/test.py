@@ -23,7 +23,8 @@ start = time.perf_counter()
     
 # )
 
-elapsed = time.perf_counter() - start
-print("elapsed: ", elapsed)
+# elapsed = time.perf_counter() - start
+# print("elapsed: ", elapsed)
 
-pp(json.dumps((AnalysisService().analyze('https://www.instagram.com/p/Ddk4uxwSNBd', model='laya'))))
+report = ((AnalysisService().analyze('https://www.instagram.com/p/Ddk4uxwSNBd', model='laya')))
+print(report)
