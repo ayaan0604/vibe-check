@@ -10,7 +10,6 @@ class Comment:
 
 def parse_comments(response) -> List[Comment]:
     comments = []
-
     for item in response['comments']:
         text = item.get('text', "").strip()
 

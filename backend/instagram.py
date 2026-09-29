@@ -39,8 +39,9 @@ class Instagram:
 
     def get_comments(self, url: str, sort_order : str = "recent"):
         '''- sort order can be 'recent' or 'popular' -'''
-
+    
         media_code = self.get_media_code(url)
+        print(media_code)
 
         cached = self.get_cached_comments(media_code)
 
@@ -50,6 +51,7 @@ class Instagram:
             return cached
 
         print("calling api")
+        
         api_url = "https://instagram-scraper-stable-api.p.rapidapi.com/get_post_comments.php"
 
         querystring = {
@@ -67,6 +69,7 @@ class Instagram:
         response.raise_for_status()
 
         data = response.json()
+        
         self.save_cached_comments(data = data, media_code = media_code)
 
         return data

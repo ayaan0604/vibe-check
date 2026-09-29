@@ -2,6 +2,7 @@ from typing import List
 from analyzer import CommentAnalysis
 from pydantic import BaseModel
 from collections import Counter
+from comments import Comment
 
 class AnalysisReport(BaseModel):
     total_comments: int
@@ -13,6 +14,8 @@ class AnalysisReport(BaseModel):
     vibe: str
     chaos_index : float
     roast_to_hype_ratio : float | None
+
+    comments : List[Comment] | None = None
 
 class Aggregator:
 

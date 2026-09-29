@@ -1,11 +1,11 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, field_validator, HttpUrl
-from services import AnalysisService
+from services import AnalysisService, ExtractorService
 
 
-class AnalyzeRequest(BaseModel):
+class InstagramURL(BaseModel):
     url : HttpUrl
-
+    
     @field_validator('url')
     @classmethod
     def validate_instagram_url(cls, value):
@@ -22,12 +22,17 @@ class AnalyzeRequest(BaseModel):
 
         return value
 
+class AnalyzeRequest(BaseModel):
+    url : InstagramURL
+    model : str
+
 
 
 
 app = FastAPI()
 
-service = AnalysisService()
+analysis_service = AnalysisService()
+extractor_service = ExtractorService()
 
 @app.get('/health')
 def health():
@@ -37,4 +42,17 @@ def health():
 
 @app.post('/analyze')
 def analyze(request: AnalyzeRequest):
-    return service.analyze(str(request.url))
+    try:
+        return analysis_service.analyze(str(request.url.url), str(request.model))
+    except Exception as e:
+        raise HTTPException(status_code=400, detail={
+            'error' : e
+        })
+
+@app.post("/get_comments")
+def get_comments(request : InstagramURL):
+    try:
+        return extractor_service.extract_comments(str(request.url))
+    except Exception as e:
+        raise HTTPException(400, detail= {'error' : e})
+    

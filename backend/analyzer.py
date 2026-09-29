@@ -1,9 +1,12 @@
 from typing import Literal
 from pydantic import BaseModel
-from typesafe_sdk import Choice, Score, Noul, TypeSafeClient
+from typesafe_sdk import Choice, Noul, TypeSafeClient
+from laya import Router
 from comments import Comment
 import random
 from typing import List
+
+
 class CommentAnalysis(BaseModel):
 
     comment_id : str
@@ -40,6 +43,8 @@ class CommentAnalysis(BaseModel):
 
     sarcastic: bool
 
+    
+
 
 
 
@@ -47,6 +52,12 @@ class CommentAnalysis(BaseModel):
 class CommentAnalyzer:
     def analyze(self, comment: Comment) -> CommentAnalysis:
         raise NotImplementedError
+
+    def analyze_comments(self, comments: List[Comment])->List[CommentAnalysis]:
+        return [
+            self.analyze(comment)
+            for comment in comments
+        ]
 
 class MockCommentAnalyzer(CommentAnalyzer):
     intent_options = [
@@ -149,7 +160,7 @@ class JevCommentAnalyzer(CommentAnalyzer):
             comment_id= comment.id,
             intent = response.answers["intent"].choice.upper(),
             reaction = response.answers["reaction"].choice.upper(),
-            sarcastic = response.answers["sarcastic"].choice.upper(),
+            sarcastic = response.answers["sarcastic"].choice == 'true'
         )
 
     def analyze_comments(
@@ -160,4 +171,102 @@ class JevCommentAnalyzer(CommentAnalyzer):
         return [
             self.analyze(comment) for comment in comments
         ]
+
+class LayaCommentAnalyzer(CommentAnalyzer):
+    def __init__(self):
+        self.router = Router()
+        self.questions = {
+            "intent": {
+                "type": "choice",
+                "instructions": "What is the primary intent of this Instagram comment?",
+                "criteria": {
+                    "hype": "The commenter is expressing approval, admiration, or positive appreciation.",
+                    "roast": "The commenter is expressing disapproval or a negative opinion.",
+                    "wander": "The commenter is primarily asking for information.",
+                    "joke": "The comment is primarily intended as humor.",
+                    "reaction": "The comment mainly expresses an immediate emotional reaction.",
+                    "suggestion": "The commenter is recommending or requesting a change or action.",
+                    "story": "The commenter is sharing a personal experience or story.",
+                    "other": "The comment does not clearly fit the other categories."
+                }
+            },
+
+            "reaction": {
+                "type": "choice",
+                "instructions": "What is the primary emotional reaction expressed by this comment?",
+                "criteria": {
+                    "lol": "The comment expresses amusement or humor.",
+                    "happy": "The comment expresses happiness or excitement.",
+                    "downfall": "The comment expresses sadness.",
+                    "flabbergasted": "The comment expresses surprise or disbelief.",
+                    "angry": "The comment expresses anger or frustration.",
+                    "confused": "The comment expresses confusion.",
+                    "neutral": "No clear emotional reaction is expressed.",
+                    "cooked": "The comment expresses a realization of being in a bad or dangerous situation."
+                }
+            },
+
+            "sarcastic": {
+                "type": "noul",
+                "instructions": "Is the comment sarcastic?",
+                "criteria": {
+                    "true": "The comment communicates something ironically or mockingly rather than literally.",
+                    "false": "The comment is sincere or does not contain clear sarcasm."
+                }
+            }
+        }
+
+
+
+    def analyze(self, comment):
+        result = self.router.predict(
+            state={
+                'comment': comment.text
+            },
+            questions= self.questions)
+
+        print(result['answers'])
+
+        return CommentAnalysis(
+            comment_id= comment.id,
+            intent= result['answers']['intent']['choice'].upper(),
+            reaction = result['answers']['reaction']['choice'].upper(),
+            sarcastic= result['answers']['sarcastic']['noul'] > 0.5
+        )
+
     
+    def analyze_comments(self, comments):
+
+        requests = [
+            {
+                'state': {
+                    'comment' : comment.text
+                },
+                'questions' : self.questions
+            }
+            for comment in comments
+
+        ]
+
+        results = self.router.predict_batch(
+            requests = requests,
+            batch_size=16
+        )
+
+
+        analyzed = []
+
+        for comment, result in zip(comments, results):
+            answers = result['answers']
+
+            analyzed.append(
+                CommentAnalysis(
+                    comment_id= comment.id,
+                    intent= answers['intent']['choice'].upper(),
+                    reaction= answers['reaction']['choice'].upper(),
+                    sarcastic= answers['sarcastic']['noul'] > 0.5
+    
+                )
+            )
+
+        return analyzed
