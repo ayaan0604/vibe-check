@@ -4,7 +4,9 @@ import json
 from pydantic import BaseModel, field_validator, HttpUrl
 from services import AnalysisService, ExtractorService, StreamResponseService
 from fastapi.middleware.cors import CORSMiddleware
+import dotenv
 
+dotenv.load_dotenv()
 
 class InstagramURL(BaseModel):
     url : HttpUrl
