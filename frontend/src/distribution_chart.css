@@ -1,0 +1,150 @@
+/* =========================================
+   DISTRIBUTION CHART
+   ========================================= */
+
+.distribution-chart {
+    width: 100%;
+}
+
+
+/* =========================================
+   TITLE
+   ========================================= */
+
+.distribution-title {
+    margin: 0 0 22px;
+
+    color: #eeeeee;
+
+    font-size: 16px;
+    font-weight: 600;
+}
+
+
+/* =========================================
+   LIST
+   ========================================= */
+
+.distribution-list {
+    display: flex;
+    flex-direction: column;
+
+    gap: 14px;
+}
+
+
+/* =========================================
+   ROW
+   ========================================= */
+
+.distribution-row {
+    display: grid;
+
+    grid-template-columns: 105px 1fr 52px;
+
+    align-items: center;
+
+    gap: 12px;
+}
+
+
+/* =========================================
+   LABEL
+   ========================================= */
+
+.distribution-label {
+    color: #bdbdbd;
+
+    font-size: 12px;
+    font-weight: 500;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+/* =========================================
+   BAR CONTAINER
+   ========================================= */
+
+.distribution-bar-container {
+    width: 100%;
+    height: 8px;
+
+    background: #292929;
+
+    border-radius: 999px;
+
+    overflow: hidden;
+}
+
+
+/* =========================================
+   BAR
+   ========================================= */
+
+.distribution-bar {
+    height: 100%;
+
+    min-width: 2px;
+
+    background: #888;
+
+    border-radius: 999px;
+
+    transition:
+        width 0.5s ease,
+        background 0.2s ease;
+}
+
+
+/* =========================================
+   BAR HOVER
+   ========================================= */
+
+.distribution-row:hover .distribution-bar {
+    background: #bdbdbd;
+}
+
+
+/* =========================================
+   PERCENTAGE
+   ========================================= */
+
+.distribution-value {
+    color: #eeeeee;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    text-align: right;
+
+    font-variant-numeric: tabular-nums;
+}
+
+
+/* =========================================
+   MOBILE
+   ========================================= */
+
+@media (max-width: 600px) {
+
+    .distribution-row {
+        grid-template-columns: 85px 1fr 48px;
+
+        gap: 8px;
+    }
+
+    .distribution-label {
+        font-size: 11px;
+    }
+
+    .distribution-value {
+        font-size: 11px;
+    }
+
+    .distribution-bar-container {
+        height: 7px;
+    }
+}

@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&display=swap');
+
+.app-header {
+    width: 100%;
+
+    border-bottom: 1px solid #222;
+
+    background: #0d0d0d;
+}
+
+
+.header-content {
+    width: 100%;
+
+    height: 64px;
+
+    padding: 0 28px;
+
+    box-sizing: border-box;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+/* =========================================
+   LOGO
+   ========================================= */
+
+.logo {
+    color: #f5f5f5;
+
+    text-decoration: none;
+
+    font-family: "Montserrat", sans-serif;
+
+    font-size: 25px;
+    font-weight: 700;
+
+    letter-spacing: -0.5px;
+
+    transition: opacity 0.2s ease;
+}
+
+.logo:hover {
+    opacity: 0.75;
+}
+
+
+/* =========================================
+   NAVIGATION
+   ========================================= */
+
+.header-nav {
+    display: flex;
+
+    align-items: center;
+
+    gap: 24px;
+}
+
+
+.header-nav a {
+    color: #888;
+
+    text-decoration: none;
+
+    font-size: 18px;
+    font-weight: 500;
+
+    transition:
+        color 0.2s ease;
+}
+
+
+.header-nav a:hover {
+    color: #eeeeee;
+}
+
+
+/* =========================================
+   MOBILE
+   ========================================= */
+
+@media (max-width: 600px) {
+
+    .header-content {
+        height: 58px;
+
+        padding: 0 18px;
+    }
+
+    .logo {
+        font-size: 15px;
+    }
+
+    .header-nav {
+        gap: 16px;
+    }
+
+    .header-nav a {
+        font-size: 12px;
+    }
+}

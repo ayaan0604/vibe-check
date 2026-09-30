@@ -1,39 +1,117 @@
-
-import CommentCard from "./comment_card"
 import DistributionChart from "./distribution_chart"
+import "./result_section.css"
 
-function ResultSection({result}){
+function ResultSection({ result }) {
 
-    if(!result){
-        return <p>no result yet</p>
+    if (!result) {
+        return null
     }
 
-    return <div>
-        <h2>Analysis Report</h2>
+    return (
+        <section className="result-section">
 
-        <p>Total Comments Analyzed: {result.total_comments}</p>
-        <p>Sarcasm Rate: {Math.round(result.sarcasm_rate*100)/100}</p>
-        <p>Vibe : {result.vibe}</p>
-        <p>Chaos Index: {result.chaos_index}</p>
-        <p>Roast/Hype : {result.roast_to_hype_ratio}</p>
+            {/* Header */}
 
-        <DistributionChart title={"Intent Distribution"} distribution={result.intent_distribution}/>
-        <DistributionChart title={"Reaction Distribution"} distribution={result.reaction_distribution}/>
+            <div className="result-header">
+                <div>
+                    <h2>Analysis Report</h2>
+                    <p>Here's what the comments have to say.</p>
+                </div>
+            </div>
 
-        <h2>Comments</h2>
 
-        <ul>
-            {
-                result.comments.map((comment)=>{
-                    return <li key={comment.id}>
-                        <CommentCard comment={comment} />
-                    </li>
-                })
-            }
-        </ul>
+            {/* Main Metrics */}
 
-    </div>
+            <div className="metrics-grid">
 
+                <div className="metric-card">
+                    <span className="metric-label">
+                        Comments Analyzed
+                    </span>
+
+                    <span className="metric-value">
+                        {result.total_comments}
+                    </span>
+                </div>
+
+
+                <div className="metric-card">
+                    <span className="metric-label">
+                        Sarcasm Rate
+                    </span>
+
+                    <span className="metric-value">
+                        {Math.round(result.sarcasm_rate * 100) / 100}%
+                    </span>
+                </div>
+
+
+                <div className="metric-card">
+                    <span className="metric-label">
+                        Vibe
+                    </span>
+
+                    <span className="metric-value metric-vibe">
+                        {result.vibe}
+                    </span>
+                </div>
+
+
+                <div className="metric-card">
+                    <span className="metric-label">
+                        Chaos Index
+                    </span>
+
+                    <span className="metric-value">
+                        {result.chaos_index}
+                    </span>
+                </div>
+
+
+                <div className="metric-card">
+                    <span className="metric-label">
+                        Roast / Hype
+                    </span>
+
+                    <span className="metric-value">
+                        {result.roast_to_hype_ratio}
+                    </span>
+                </div>
+
+            </div>
+
+
+            {/* Distributions */}
+
+            <div className="distribution-section">
+
+                <div className="section-heading">
+                    <h3>Comment Breakdown</h3>
+                    <p>How the comments were classified.</p>
+                </div>
+
+                <div className="charts-grid">
+
+                    <div className="chart-card">
+                        <DistributionChart
+                            title="Intent Distribution"
+                            distribution={result.intent_distribution}
+                        />
+                    </div>
+
+                    <div className="chart-card">
+                        <DistributionChart
+                            title="Reaction Distribution"
+                            distribution={result.reaction_distribution}
+                        />
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+    )
 }
 
 export default ResultSection

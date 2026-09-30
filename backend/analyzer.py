@@ -228,7 +228,6 @@ class LayaCommentAnalyzer(CommentAnalyzer):
             },
             questions= self.questions)
 
-        print(result['answers'])
 
         return CommentAnalysis(
             comment_id= comment.id,

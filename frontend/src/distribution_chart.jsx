@@ -1,39 +1,57 @@
-function DistributionChart({title, distribution}){
+import "./distribution_chart.css"
 
+function DistributionChart({ title, distribution }) {
 
-    return <div>
-            <h3>{title}</h3>
+    if (!distribution) {
+        return null
+    }
 
-            {Object.entries(distribution)
-            .sort((a,b)=>{return b[1] - a[1] })
-            .map(([label, percentage])=>{
-                return <div key={label}
-                        style = {{
-                            display: 'flex',
-                            alignItems: 'centre',
-                            gap : '10px'
-                        }}>
+    const entries = Object.entries(distribution)
+        .sort((a, b) => b[1] - a[1])
 
-                    <span style = {{width: "100px"}}>
-                        {label}
-                    </span>
+    return (
+        <div className="distribution-chart">
 
-                    
+            <h3 className="distribution-title">
+                {title}
+            </h3>
+
+            <div className="distribution-list">
+
+                {entries.map(([label, percentage]) => (
+
                     <div
-                        style = {{
-                            width: `${percentage}%`,
-                            height : '10px',
-                            backgroundColor : 'black'
-                        }}
-                    />
-                    <span> {percentage.toFixed(1)}%</span>
-                
-                    
-                </div>
-                
-            })}
-    </div>
+                        className="distribution-row"
+                        key={label}
+                    >
 
+                        <div className="distribution-label">
+                            {label}
+                        </div>
+
+                        <div className="distribution-bar-container">
+
+                            <div
+                                className="distribution-bar"
+                                style={{
+                                    width: `${percentage}%`
+                                }}
+                            />
+
+                        </div>
+
+                        <div className="distribution-value">
+                            {percentage.toFixed(1)}%
+                        </div>
+
+                    </div>
+
+                ))}
+
+            </div>
+
+        </div>
+    )
 }
 
 export default DistributionChart

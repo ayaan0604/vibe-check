@@ -146,6 +146,18 @@ class StreamResponseService:
         if model not in self.analyzer_map.keys():
             raise ValueError(f"Unknown Model : {model}. Choose from : {self.analyzer_map.keys()}")
 
+        #jev currently not available
+        if model == "jev":
+            yield {
+                "type" : "error",
+                "data" : {
+                    'error' : 'Jev is not working currently, please choose any other model'
+                }
+            }
+            
+            return
+    
+
         key = f"{self.instagram.get_media_code(url)}_{model}" 
 
         cached = self.cache.get(key)
@@ -175,6 +187,8 @@ class StreamResponseService:
 
         #jev needs a context manager
         if model == 'jev' and not self.mock_active:
+           
+
             with analyzer() as jev_analyser:
                 for idx, comment in enumerate(comments):
                     result = jev_analyser.analyze(comment)

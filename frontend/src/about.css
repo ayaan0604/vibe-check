@@ -1,0 +1,228 @@
+/* =========================================
+   ABOUT SECTION
+   ========================================= */
+
+.about-section {
+    width: 100%;
+
+    padding: 110px 24px 120px;
+
+    box-sizing: border-box;
+
+    border-top: 1px solid #222;
+
+    background: #0d0d0d;
+
+    scroll-margin-top: 64px;
+}
+
+
+.about-content {
+    width: 100%;
+    max-width: 1000px;
+
+    margin: 0 auto;
+}
+
+
+/* =========================================
+   HEADING
+   ========================================= */
+
+.about-heading {
+    max-width: 700px;
+
+    margin-bottom: 55px;
+}
+
+
+.about-label {
+    display: inline-block;
+
+    margin-bottom: 16px;
+
+    color: #777;
+
+    font-size: 11px;
+    font-weight: 600;
+
+    letter-spacing: 1.5px;
+}
+
+
+.about-heading h2 {
+    margin: 0;
+
+    color: #f5f5f5;
+
+    font-size: 36px;
+    font-weight: 650;
+
+    line-height: 1.15;
+
+    letter-spacing: -1px;
+}
+
+
+.about-heading p {
+    margin: 18px 0 0;
+
+    max-width: 600px;
+
+    color: #777;
+
+    font-size: 16px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================
+   ABOUT CARDS
+   ========================================= */
+
+.about-grid {
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 14px;
+}
+
+
+.about-card {
+    position: relative;
+
+    padding: 28px;
+
+    background: #141414;
+
+    border: 1px solid #292929;
+
+    border-radius: 14px;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.about-card:hover {
+    background: #171717;
+
+    border-color: #3a3a3a;
+
+    transform: translateY(-2px);
+}
+
+
+/* =========================================
+   CARD NUMBER
+   ========================================= */
+
+.about-number {
+    display: block;
+
+    margin-bottom: 25px;
+
+    color: #555;
+
+    font-family: monospace;
+
+    font-size: 12px;
+}
+
+
+/* =========================================
+   CARD CONTENT
+   ========================================= */
+
+.about-card h3 {
+    margin: 0 0 10px;
+
+    color: #eeeeee;
+
+    font-size: 17px;
+    font-weight: 600;
+}
+
+
+.about-card p {
+    margin: 0;
+
+    color: #777;
+
+    font-size: 14px;
+
+    line-height: 1.65;
+}
+
+
+/* =========================================
+   FOOTER
+   ========================================= */
+
+.about-footer {
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+
+    margin-top: 50px;
+}
+
+
+.about-footer-line {
+    width: 45px;
+    height: 1px;
+
+    background: #444;
+}
+
+
+.about-footer p {
+    margin: 0;
+
+    color: #666;
+
+    font-size: 13px;
+}
+
+
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+
+@media (max-width: 700px) {
+
+    .about-section {
+        padding: 80px 18px 90px;
+    }
+
+
+    .about-heading {
+        margin-bottom: 35px;
+    }
+
+
+    .about-heading h2 {
+        font-size: 29px;
+    }
+
+
+    .about-heading p {
+        font-size: 14px;
+    }
+
+
+    .about-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .about-card {
+        padding: 22px;
+    }
+}

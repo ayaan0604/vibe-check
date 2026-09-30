@@ -1,0 +1,269 @@
+.comment-card {
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 24px;
+
+    background: #171717;
+
+    border: 1px solid #292929;
+    border-radius: 14px;
+
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.18);
+
+    margin-bottom: 16px;
+
+    transition:
+        border-color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+/* Card hover */
+
+.comment-card:hover {
+    border-color: #3a3a3a;
+
+    transform: translateY(-2px);
+
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+}
+
+
+/* =========================================
+   COMMENT TEXT
+   ========================================= */
+
+.comment-text {
+    margin: 0;
+
+    color: #eeeeee;
+
+    font-size: 16px;
+    line-height: 1.6;
+
+    word-break: break-word;
+}
+
+
+/* =========================================
+   BADGES CONTAINER
+   ========================================= */
+
+.comment-badges {
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 8px;
+
+    margin-top: 18px;
+}
+
+
+/* =========================================
+   BASE BADGE
+   ========================================= */
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 6px 11px;
+
+    border-radius: 999px;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    line-height: 1;
+
+    border: 1px solid transparent;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================
+   INTENTS
+   ========================================= */
+
+/* HYPE */
+
+.intent-HYPE {
+    background: #3b0764;
+    color: #d8b4fe;
+    border-color: #6b21a8;
+}
+
+
+/* ROAST */
+
+.intent-ROAST {
+    background: #431407;
+    color: #fdba74;
+    border-color: #9a3412;
+}
+
+
+/* WANDER */
+
+.intent-WANDER {
+    background: #082f49;
+    color: #7dd3fc;
+    border-color: #0369a1;
+}
+
+
+/* JOKE */
+
+.intent-JOKE {
+    background: #422006;
+    color: #fde047;
+    border-color: #a16207;
+}
+
+
+/* REACTION */
+
+.intent-REACTION {
+    background: #172554;
+    color: #93c5fd;
+    border-color: #1d4ed8;
+}
+
+
+/* SUGGESTION */
+
+.intent-SUGGESTION {
+    background: #052e16;
+    color: #86efac;
+    border-color: #15803d;
+}
+
+
+/* STORY */
+
+.intent-STORY {
+    background: #312e81;
+    color: #c4b5fd;
+    border-color: #4338ca;
+}
+
+
+/* OTHER */
+
+.intent-OTHER {
+    background: #27272a;
+    color: #d4d4d8;
+    border-color: #52525b;
+}
+
+
+/* =========================================
+   REACTIONS
+   ========================================= */
+
+/* LOL */
+
+.reaction-LOL {
+    background: #422006;
+    color: #facc15;
+    border-color: #a16207;
+}
+
+
+/* HAPPY */
+
+.reaction-HAPPY {
+    background: #052e16;
+    color: #86efac;
+    border-color: #15803d;
+}
+
+
+/* DOWNFALL */
+
+.reaction-DOWNFALL {
+    background: #172554;
+    color: #93c5fd;
+    border-color: #1d4ed8;
+}
+
+
+/* FLABBERGASTED */
+
+.reaction-FLABBERGASTED {
+    background: #3b0764;
+    color: #e9d5ff;
+    border-color: #7e22ce;
+}
+
+
+/* ANGRY */
+
+.reaction-ANGRY {
+    background: #450a0a;
+    color: #fca5a5;
+    border-color: #b91c1c;
+}
+
+
+/* CONFUSED */
+
+.reaction-CONFUSED {
+    background: #422006;
+    color: #fdba74;
+    border-color: #c2410c;
+}
+
+
+/* NEUTRAL */
+
+.reaction-NEUTRAL {
+    background: #27272a;
+    color: #d4d4d8;
+    border-color: #52525b;
+}
+
+
+/* COOKED */
+
+.reaction-COOKED {
+    background: #3f0d0d;
+    color: #fb7185;
+    border-color: #be123c;
+}
+
+
+/* =========================================
+   SARCASTIC
+   ========================================= */
+
+.sarcastic-badge {
+    background: #3b0764;
+    color: #d8b4fe;
+    border-color: #7e22ce;
+}
+
+
+/* =========================================
+   SMALL SCREEN
+   ========================================= */
+
+@media (max-width: 600px) {
+
+    .comment-card {
+        padding: 18px;
+    }
+
+    .comment-text {
+        font-size: 15px;
+    }
+
+    .badge {
+        padding: 5px 9px;
+        font-size: 11px;
+    }
+}
