@@ -70,7 +70,7 @@ def analyze_stream(request : AnalyzeRequest):
                 url = str(request.url.url),
                 model = str(request.model)
             ):
-                yield f"data: {json.dumps}\n\n"
+                yield f"data: {json.dumps(event)}\n\n"
 
         except Exception as e:
             error = {

@@ -171,7 +171,7 @@ class StreamResponseService:
 
         analysed = []
 
-        analyzer = self.mock_analyzer if self.mock_active else self.analyzer['model']
+        analyzer = self.mock_analyzer if self.mock_active else self.analyzer_map[model]
 
         #jev needs a context manager
         if model == 'jev' and not self.mock_active:
