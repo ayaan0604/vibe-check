@@ -58,7 +58,7 @@ class AnalysisService:
             'laya' : LayaCommentAnalyzer()
         }
         self.mock_analyzer = MockCommentAnalyzer()
-        self.mock_active = False
+        self.mock_active = True
         self.aggregator = Aggregator()
         self.cache = AnalysisCache()
 
@@ -82,6 +82,11 @@ class AnalysisService:
 
         key = f'{self.instagram.get_media_code(url)}_{model}'
 
+        cached = self.cache.get(key)
+        if cached is not None:
+            report =  AnalysisReport.model_validate(cached)
+            return report
+
         comments = parse_comments(
             self.instagram.get_comments(
                 url=url,
@@ -89,11 +94,7 @@ class AnalysisService:
             )
         )
 
-        cached = self.cache.get(key)
-        if cached is not None:
-            report =  AnalysisReport.model_validate(cached)
-            report.comments = [comment.__dict__ for comment in comments]
-            return report
+        
 
         if self.mock_active:
             analysed = self.mock_analyzer.analyze_comments(comments)
@@ -105,8 +106,6 @@ class AnalysisService:
         report = self.aggregator.aggregate(analysed)
 
         self.cache.set(key = key, data = report.model_dump())
-
-        report.comments = report.comments = [comment.__dict__ for comment in comments]
 
         return report
 
@@ -125,4 +124,94 @@ class ExtractorService():
             'comments' :
             [comment.__dict__ for comment in comments]
             }
-    
+
+class StreamResponseService:
+    def __init__(self):
+        self.instagram = Instagram()
+        self.comment_parser = parse_comments
+
+        self.mock_analyzer = MockCommentAnalyzer()
+        self.mock_active = False
+
+        self.analyzer_map = {
+            'jev' : JevCommentAnalyzer,
+            'laya' : LayaCommentAnalyzer()
+        }
+
+        self.aggregator = Aggregator()
+        self.cache = AnalysisCache()
+
+    def stream_analysis(self, url:str, model: str):
+
+        if model not in self.analyzer_map.keys():
+            raise ValueError(f"Unknown Model : {model}. Choose from : {self.analyzer_map.keys()}")
+
+        key = f"{self.instagram.get_media_code(url)}_{model}" 
+
+        cached = self.cache.get(key)
+
+        if cached is not None:
+            yield {
+                'type' : "cached",
+                'data' : cached
+            }
+            return
+
+        comments = self.comment_parser(
+            self.instagram.get_comments(url)
+        )
+
+        yield {
+            "type" : "starting",
+            "data" : {
+                "comments_fetched" : len(comments),
+                "model" : model
+            }
+        }
+
+        analysed = []
+
+        analyzer = self.mock_analyzer if self.mock_active else self.analyzer['model']
+
+        #jev needs a context manager
+        if model == 'jev' and not self.mock_active:
+            with analyzer() as jev_analyser:
+                for idx, comment in enumerate(comments):
+                    result = jev_analyser.analyze(comment)
+                    analysed.append(result)
+
+                    yield {
+                        "type" : "comment",
+                        "data" : {
+                            'index' : idx,
+                            'total' : len(comments),
+                            'data' : result.model_dump()
+                        }
+                    }
+
+
+        #for models other than jev
+        else:
+            for idx, comment in enumerate(comments):
+
+                result = analyzer.analyze(comment)
+                analysed.append(result)
+
+                yield {
+                    "type" : "comment",
+                    "data" : {
+                        'index' : idx,
+                        'total' : len(comments),
+                        'data' : result.model_dump()
+                    }
+                }
+
+        #all comments are analysed
+        report = self.aggregator.aggregate(analysed)
+
+        self.cache.set(key = key, data = report.model_dump())
+
+        yield {
+            'type' : 'final_report',
+            'data' : report.model_dump()
+        }

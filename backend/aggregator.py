@@ -15,7 +15,7 @@ class AnalysisReport(BaseModel):
     chaos_index : float
     roast_to_hype_ratio : float | None
 
-    comments : List[Comment] | None = None
+    comments : List[CommentAnalysis] | None = None
 
 class Aggregator:
 
@@ -95,7 +95,8 @@ class Aggregator:
             sarcasm_rate=sarcasm_rate,
             vibe=vibe,
             chaos_index=chaos_index,
-            roast_to_hype_ratio=roast_to_hype_ratio
+            roast_to_hype_ratio=roast_to_hype_ratio,
+            comments= analyses
         )
 
     def _calculate_vibe(self, intent_distribution: dict[str, float]) -> str:

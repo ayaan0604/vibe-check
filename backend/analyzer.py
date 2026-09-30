@@ -43,6 +43,7 @@ class CommentAnalysis(BaseModel):
 
     sarcastic: bool
 
+    text : str
     
 
 
@@ -87,7 +88,8 @@ class MockCommentAnalyzer(CommentAnalyzer):
             comment_id = comment.id,
             intent= random.choice(self.intent_options),
             reaction= random.choice(self.reaction_options),
-            sarcastic= random.choice([True, False])
+            sarcastic= random.choice([True, False]),
+            text= comment.text
         )
 
     def analyze_comments(self, comments: List[Comment])-> List[CommentAnalysis]:
@@ -160,7 +162,8 @@ class JevCommentAnalyzer(CommentAnalyzer):
             comment_id= comment.id,
             intent = response.answers["intent"].choice.upper(),
             reaction = response.answers["reaction"].choice.upper(),
-            sarcastic = response.answers["sarcastic"].choice == 'true'
+            sarcastic = response.answers["sarcastic"].choice == 'true',
+            text = comment.text
         )
 
     def analyze_comments(
@@ -231,7 +234,8 @@ class LayaCommentAnalyzer(CommentAnalyzer):
             comment_id= comment.id,
             intent= result['answers']['intent']['choice'].upper(),
             reaction = result['answers']['reaction']['choice'].upper(),
-            sarcastic= result['answers']['sarcastic']['noul'] > 0.5
+            sarcastic= result['answers']['sarcastic']['noul'] > 0.5,
+            text = comment.text
         )
 
     

@@ -1,6 +1,8 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import StreamingResponse
+import json
 from pydantic import BaseModel, field_validator, HttpUrl
-from services import AnalysisService, ExtractorService
+from services import AnalysisService, ExtractorService, StreamResponseService
 from fastapi.middleware.cors import CORSMiddleware
 
 
@@ -42,6 +44,7 @@ app.add_middleware(
 
 analysis_service = AnalysisService()
 extractor_service = ExtractorService()
+stream_response_service = StreamResponseService()
 
 @app.get('/health')
 def health():
@@ -57,6 +60,37 @@ def analyze(request: AnalyzeRequest):
         raise HTTPException(status_code=400, detail={
             'error' : str(e)
         })
+
+@app.post("/analyze/stream")
+def analyze_stream(request : AnalyzeRequest):
+
+    def event_generator():
+        try:
+            for event in stream_response_service.stream_analysis(
+                url = str(request.url.url),
+                model = str(request.model)
+            ):
+                yield f"data: {json.dumps}\n\n"
+
+        except Exception as e:
+            error = {
+                'type' : 'error',
+                'data' : {
+                    'error' : str(e)
+                }
+            }
+            yield f"data: {json.dumps(error)}\n\n"
+
+    return StreamingResponse(
+        event_generator(),
+        media_type= 'text/event-stream',
+        headers={
+            "Cache-Control": "no-cache",
+            "Connection": "keep-alive",
+        }
+    )
+                
+
 
 @app.post("/get_comments")
 def get_comments(request : InstagramURL):
