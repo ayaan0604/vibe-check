@@ -5,6 +5,7 @@ from pydantic import BaseModel, field_validator, HttpUrl
 from services import AnalysisService, ExtractorService, StreamResponseService
 from fastapi.middleware.cors import CORSMiddleware
 import dotenv
+import os
 
 dotenv.load_dotenv()
 
@@ -32,12 +33,12 @@ class AnalyzeRequest(BaseModel):
     model : str
 
 
-
+ALLOWED_ORIGINS = os.environ.get("ALLOWED_ORIGINS", "").split(',')
 
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=['http://localhost:5173'],
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
     allow_headers=['*'],
     allow_methods=['*']

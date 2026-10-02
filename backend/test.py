@@ -1,4 +1,4 @@
-from services import AnalysisService
+from services import AnalysisService, StreamResponseService
 from pprint import pp
 from analyzer import LayaCommentAnalyzer
 import time
@@ -26,7 +26,8 @@ start = time.perf_counter()
 # elapsed = time.perf_counter() - start
 # print("elapsed: ", elapsed)
 
-report = ((AnalysisService().analyze('https://www.instagram.com/p/Ddk4uxwSNBd', model='laya')))
-print(report)
+report = ((StreamResponseService().stream_analysis('https://www.instagram.com/p/Ddk4uxwSNBd', model='jev')))
+for result in report:
+    print(result)
 
 

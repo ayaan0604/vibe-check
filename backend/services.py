@@ -21,7 +21,7 @@ class AnalysisCache:
 
     def get(self, key):
         path = self._get_path(key)
-
+       
         if not path.exists():
             return None
 
@@ -81,7 +81,7 @@ class AnalysisService:
     def analyze(self, url:str, model: str):
 
         key = f'{self.instagram.get_media_code(url)}_{model}'
-
+        print("key:",key)
         cached = self.cache.get(key)
         if cached is not None:
             report =  AnalysisReport.model_validate(cached)
@@ -146,12 +146,12 @@ class StreamResponseService:
         if model not in self.analyzer_map.keys():
             raise ValueError(f"Unknown Model : {model}. Choose from : {self.analyzer_map.keys()}")
 
-        #jev currently not available
-        if model == "jev":
+        #laya currently not available on production, only for testing
+        if model == "laya":
             yield {
                 "type" : "error",
                 "data" : {
-                    'error' : 'Jev is not working currently, please choose any other model'
+                    'error' : 'Laya is not working currently, please choose any other model'
                 }
             }
             
@@ -169,9 +169,18 @@ class StreamResponseService:
             }
             return
 
+    
         comments = self.comment_parser(
             self.instagram.get_comments(url)
         )
+        if len(comments) == 0:
+            yield {
+                    "type" : "error",
+                    "data" : {
+                        'error' : f"Couldn't Retrieve Comments from {url}, try checking the url"
+                    }
+                }
+            return
 
         yield {
             "type" : "starting",

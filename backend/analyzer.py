@@ -141,20 +141,21 @@ class JevCommentAnalyzer(CommentAnalyzer):
         }
 
     def __enter__(self):
-        self.client = TypeSafeClient
+        self.client = TypeSafeClient()
         self.client.__enter__()
 
         return self
 
     def __exit__(self, exc_type, exc_value, traceback):
-        self.client.__exit__(exc_type, exc_value, traceback)
+        self.client.__exit__(  exc_type, exc_value, traceback)
+        self.client = None
 
     def analyze(self, comment):
         if self.client is None:
             raise RuntimeError("JevCommentAnalyzer must be used within a with block")
 
         response = self.client.system_one(
-            state = {'commment' : comment.text},
+            state = {'comment' : comment.text},
             questions= self.questions
         )
 
@@ -162,7 +163,7 @@ class JevCommentAnalyzer(CommentAnalyzer):
             comment_id= comment.id,
             intent = response.answers["intent"].choice.upper(),
             reaction = response.answers["reaction"].choice.upper(),
-            sarcastic = response.answers["sarcastic"].choice == 'true',
+            sarcastic = response.answers["sarcastic"].noul == 'true',
             text = comment.text
         )
 

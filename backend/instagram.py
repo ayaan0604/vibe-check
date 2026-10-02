@@ -41,7 +41,7 @@ class Instagram:
         '''- sort order can be 'recent' or 'popular' -'''
     
         media_code = self.get_media_code(url)
-        print(media_code)
+        
 
         cached = self.get_cached_comments(media_code)
 
@@ -69,6 +69,12 @@ class Instagram:
         response.raise_for_status()
 
         data = response.json()
+        
+        if "error" in data: 
+            raise ValueError(f"Unable to retrieve commments: {data ['error']}")
+            
+
+        
         
         self.save_cached_comments(data = data, media_code = media_code)
 
