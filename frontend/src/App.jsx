@@ -10,7 +10,7 @@ import AboutSection from "./about"
 import "./App.css"
 
 
-const api_url = "http://127.0.0.1:8000/analyze/stream"
+const api_url = "https://vibe-check-o27o.onrender.com/analyze/stream"
 
 
 function App() {
