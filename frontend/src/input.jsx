@@ -3,7 +3,7 @@ import './input.css'
 
 function URLInput({ onAnalyze }) {
 
-    const [selected_model, updateModel] = useState("laya")
+    const [selected_model, updateModel] = useState("jev")
     const [entered_url, updateUrl] = useState("")
 
     return (
