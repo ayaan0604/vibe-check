@@ -10,7 +10,7 @@ class Comment:
 
 def parse_comments(response) -> List[Comment]:
     comments = []
-    for item in response['comments']:
+    for id, item in enumerate(response['comments']):
         text = item.get('text', "").strip()
 
         if not text:
@@ -18,7 +18,7 @@ def parse_comments(response) -> List[Comment]:
 
         comments.append(
             Comment(
-                id = item['id'],
+                id = id+1,
                 text = text,
                 created_at= item["created_at"]
             )
