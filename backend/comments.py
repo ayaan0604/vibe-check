@@ -18,7 +18,7 @@ def parse_comments(response) -> List[Comment]:
 
         comments.append(
             Comment(
-                id = id+1,
+                id = f"{id+1}",
                 text = text,
                 created_at= item["created_at"]
             )
