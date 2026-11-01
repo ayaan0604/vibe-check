@@ -40,11 +40,6 @@
     font-size: 25px;
     font-weight: 700;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: -10px;
-
     letter-spacing: -0.5px;
 
     transition: opacity 0.2s ease;
@@ -54,10 +49,7 @@
     opacity: 0.75;
 }
 
-.logo img{
-    height:50%;
-    margin-bottom: 10px;
-}
+
 
 /* =========================================
    NAVIGATION

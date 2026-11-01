@@ -8,8 +8,7 @@ function Header() {
             <div className="header-content">
 
                 <a href="/" className="logo">
-                    <img src="src/assets/image.png"></img>
-                    IBE CHECK
+                    VIBE CHECK
                 </a>
 
                 <nav className="header-nav">
