@@ -6,6 +6,7 @@ import ProgressBar from "./progress_bar"
 import CommentCard from "./comment_card"
 import ResultSection from "./result_section"
 import AboutSection from "./about"
+import { wakeUpBackend } from "./utils/backend"
 
 import "./App.css"
 
@@ -13,7 +14,12 @@ import "./App.css"
 const api_url = "https://vibe-check-o27o.onrender.com/analyze/stream"
 
 
+
 function App() {
+
+    useEffect(()=>{
+        wakeUpBackend()
+    }, [])
 
     const [error, setError] = useState(null)
 

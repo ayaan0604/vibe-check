@@ -106,15 +106,7 @@ function AboutSection() {
                 </div>
 
 
-                <div className="about-footer">
-
-                    <div className="about-footer-line"></div>
-
-                    <p>
-                        Analyze once. Come back later. The vibe is still there.
-                    </p>
-
-                </div>
+                
 
             </div>
 
